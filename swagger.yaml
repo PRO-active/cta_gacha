@@ -5,11 +5,9 @@ info:
   title: "Gacha App"
 tags:
 - name: "user"
-  description: "user"
+  description: "user関連"
 - name: "gacha"
-  description: "gacha"
-- name: "item"
-  description: "item"
+  description: "gacha関連"
 paths:
   /user:
     post:
@@ -49,7 +47,7 @@ paths:
           description: "user not found"
       security:
       - api_key: []
-    put:
+    patch:
       tags:
       - "user"
       summary: "ユーザ情報変更"
@@ -75,48 +73,48 @@ paths:
           description: "User not found"
         "405":
           description: "Validation exception"
-    patch:
-      tags:
-      - "user"
-      summary: "パスワード変更"
-      description: ""
-      parameters:
-      - name: "userId"
-        in: "path"
-        description: "ID of user that needs to be updated"
-        required: true
-        type: "integer"
-        format: "int64"
-      requestBody:
-        description: password
-        content:
-          application/json:
-            schema:
-              type: string
-      responses:
-        "405":
-          description: "Invalid input"
-    delete:
-      tags:
-      - "user"
-      summary: "ユーザ削除"
-      description: ""
-      parameters:
-      - name: "api_key"
-        in: "header"
-        required: false
-        type: "string"
-      - name: "userId"
-        in: "path"
-        description: "user id to delete"
-        required: true
-        type: "integer"
-        format: "int64"
-      responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "user not found"
+    # patch:
+    #   tags:
+    #   - "user"
+    #   summary: "パスワード変更"
+    #   description: ""
+    #   parameters:
+    #   - name: "userId"
+    #     in: "path"
+    #     description: "ID of user that needs to be updated"
+    #     required: true
+    #     type: "integer"
+    #     format: "int64"
+    #   requestBody:
+    #     description: password
+    #     content:
+    #       application/json:
+    #         schema:
+    #           type: string
+    #   responses:
+    #     "405":
+    #       description: "Invalid input"
+    # delete:
+    #   tags:
+    #   - "user"
+    #   summary: "ユーザ削除"
+    #   description: ""
+    #   parameters:
+    #   - name: "api_key"
+    #     in: "header"
+    #     required: false
+    #     type: "string"
+    #   - name: "userId"
+    #     in: "path"
+    #     description: "user id to delete"
+    #     required: true
+    #     type: "integer"
+    #     format: "int64"
+    #   responses:
+    #     "400":
+    #       description: "Invalid ID supplied"
+    #     "404":
+    #       description: "user not found"
   # /user/login:
   #   get:
   #     tags:
@@ -169,6 +167,23 @@ paths:
   #     responses:
   #       default:
   #         description: "successful operation"
+  /user/{userId}/items:
+    get:
+      tags:
+        - "user"
+      summary: "ユーザ所持アイテム一覧"
+      description: "ユーザが所持しているアイテム一覧情報を取得"
+      parameters:
+        - in: "header"
+          name: "token"
+          description: "認証トークン"
+          required: true
+          type: "string"
+      responses:
+        200:
+          description: "A successful response."
+          schema:
+            type: "string"
   /gacha:
     get:
       tags:
@@ -203,7 +218,25 @@ paths:
         "405":
           description: "Invalid input"
   /gacha/{gachaId}:
-    patch:
+    get:
+      tags:
+      - "gacha"
+      summary: "ガチャ詳細表示"
+      description: ""
+      parameters:
+      - in: "path"
+        description: "ID of gacha to return"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "object"
+      security:
+      - api_key: []
+    post:
       tags:
       - "gacha"
       summary: "ガチャ実行"
@@ -273,11 +306,11 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "gacha not found"
-  /items:
+  /gacha/{gachaId}/items:
     get:
       tags:
-        - "item"
-      summary: "ユーザ所持アイテム一覧"
+        - "gacha"
+      summary: "アイテム一覧"
       description: "ユーザが所持しているアイテム一覧情報を取得"
       parameters:
         - in: "header"
@@ -326,6 +359,8 @@ components:
         rare:
           descriotion: "レア度を表すなにか"
           type: string
+        gachaid:
+          type: interger
 
 
 externalDocs:
