@@ -174,11 +174,12 @@ paths:
       summary: "ユーザ所持アイテム一覧"
       description: "ユーザが所持しているアイテム一覧情報を取得"
       parameters:
-        - in: "header"
-          name: "token"
-          description: "認証トークン"
-          required: true
-          type: "string"
+      - name: "userId"
+        in: "path"
+        description: "ID of user that needs to be updated "
+        required: true
+        type: "integer"
+        format: "int64"
       responses:
         200:
           description: "A successful response."
@@ -242,10 +243,6 @@ paths:
       summary: "ガチャ実行"
       description: "idで指定されたガチャを引いてアイテムを取得+手持ちのガチャコインを減らす"
       # どうやってガチャを引くユーザを取得するか？←headerでユーザIDとパスワード指定すれば認証できるみたい
-      consumes:
-        - "application/json"
-      produces:
-        - "application/json"
       parameters:
       - in: "path"
         description: "ID of gacha to return"
@@ -301,7 +298,7 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "gacha not found"
-  /gacha/{Id}/items:
+  /gachas/{Id}/items:
     get:
       tags:
         - "gacha"
@@ -310,11 +307,33 @@ paths:
       parameters:
       - name: "gachaId"
       - in: "path"
+        description: "ID of gacha"
+        required: true
+        type: "integer"
+        format: "int64"
+        minimum: 1.0
+      responses:
+        200:
+          description: "A successful response."
+          schema:
+            type: "string"
+  /items/gachas/{Id}:
+    post:
+      summary: "アイテム追加"
+      parameters:
+      - name: "gachaId"
+      - in: "path"
         description: "ID of gacha that needs to be deleted"
         required: true
         type: "integer"
         format: "int64"
         minimum: 1.0
+      requestBody:
+        description: "追加するアイテムの情報"
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/item"
       responses:
         200:
           description: "A successful response."
@@ -342,6 +361,8 @@ components:
         name:
           description: "ガチャの名前"
           type: string
+        userid:
+          type: interger
         # items:
         #   description: "ガチャから出るアイテム"
         #   type: array #arrayでいいのか
