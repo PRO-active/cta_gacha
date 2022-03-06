@@ -298,25 +298,25 @@ paths:
           description: "Invalid ID supplied"
         "404":
           description: "gacha not found"
-  /gachas/{Id}/items:
-    get:
-      tags:
-        - "gacha"
-      summary: "アイテム一覧"
-      description: "ガチャに入っているアイテム一覧情報を取得"
-      parameters:
-      - name: "gachaId"
-      - in: "path"
-        description: "ID of gacha"
-        required: true
-        type: "integer"
-        format: "int64"
-        minimum: 1.0
-      responses:
-        200:
-          description: "A successful response."
-          schema:
-            type: "string"
+  # /gachas/{Id}/items:
+  #   get:
+  #     tags:
+  #       - "gacha"
+  #     summary: "アイテム一覧"
+  #     description: "ガチャに入っているアイテム一覧情報を取得"
+  #     parameters:
+  #     - name: "gachaId"
+  #     - in: "path"
+  #       description: "ID of gacha"
+  #       required: true
+  #       type: "integer"
+  #       format: "int64"
+  #       minimum: 1.0
+  #     responses:
+  #       200:
+  #         description: "A successful response."
+  #         schema:
+  #           type: "string"
   /items/gachas/{Id}:
     post:
       summary: "アイテム追加"
@@ -351,9 +351,13 @@ components:
     User:
       type: object
       properties:
+        id:
+          type: interger
         name:
           type: string
         password:
+          type: string
+        mail:
           type: string
     gacha:
       type: object
