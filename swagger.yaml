@@ -8,6 +8,8 @@ tags:
   description: "user関連"
 - name: "gacha"
   description: "gacha関連"
+- name: "item"
+  description: "item関連"
 paths:
   # User API
   /users:
@@ -47,7 +49,7 @@ paths:
               schema:
                 $ref: "#/components/schemas/errorMessage"
       default:
-        $ref: "#/components/responses/defaultError"  
+        $ref: "#/components/responses/defaultError"
     patch:
       tags:
       - "user"
@@ -70,272 +72,169 @@ paths:
                 $ref: "#/components/schemas/errorMessage"
       default:
         $ref: "#/components/responses/defaultError"
-    # patch:
-    #   tags:
-    #   - "user"
-    #   summary: "パスワード変更"
-    #   description: ""
-    #   parameters:
-    #   - name: "userId"
-    #     in: "path"
-    #     description: "ID of user that needs to be updated"
-    #     required: true
-    #     type: "integer"
-    #     format: "int64"
-    #   requestBody:
-    #     description: password
-    #     content:
-    #       application/json:
-    #         schema:
-    #           type: string
-    #   responses:
-    #     "405":
-    #       description: "Invalid input"
-    # delete:
-    #   tags:
-    #   - "user"
-    #   summary: "ユーザ削除"
-    #   description: ""
-    #   parameters:
-    #   - name: "api_key"
-    #     in: "header"
-    #     required: false
-    #     type: "string"
-    #   - name: "userId"
-    #     in: "path"
-    #     description: "user id to delete"
-    #     required: true
-    #     type: "integer"
-    #     format: "int64"
-    #   responses:
-    #     "400":
-    #       description: "Invalid ID supplied"
-    #     "404":
-    #       description: "user not found"
-  # /user/login:
-  #   get:
-  #     tags:
-  #     - "user"
-  #     summary: "Logs user into the system"
-  #     description: ""
-  #     operationId: "loginUser"
-  #     produces:
-  #     - "application/xml"
-  #     - "application/json"
-  #     parameters:
-  #     - name: "username"
-  #       in: "query"
-  #       # queryだと名前とパスワードがURIに含まれるからよくないのではないか
-  #       description: "The user name for login"
-  #       required: true
-  #       type: "string"
-  #     - name: "password"
-  #       in: "query"
-  #       description: "The password for login in clear text"
-  #       required: true
-  #       type: "string"
-  #     responses:
-  #       "200":
-  #         description: "successful operation"
-  #         schema:
-  #           type: "string"
-  #         headers:
-  #           X-Rate-Limit:
-  #             type: "integer"
-  #             format: "int32"
-  #             description: "calls per hour allowed by the user"
-  #           X-Expires-After:
-  #             type: "string"
-  #             format: "date-time"
-  #             description: "date in UTC when token expires"
-  #       "400":
-  #         description: "Invalid username/password supplied"
-  # /user/logout:
-  #   get:
-  #     tags:
-  #     - "user"
-  #     summary: "Logs out current logged in user session"
-  #     description: ""
-  #     operationId: "logoutUser"
-  #     produces:
-  #     - "application/xml"
-  #     - "application/json"
-  #     parameters: []
-  #     responses:
-  #       default:
-  #         description: "successful operation"
   /users/{Id}/items:
     get:
       tags:
         - "user"
-      summary: "ユーザ所持アイテム一覧"
-      description: "ユーザが所持しているアイテム一覧情報を取得"
+        - "item"
+      operationId: getUseritems
+      description: User所持itemの取得
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "ID of user that needs to be updated "
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/userIdPathParam"
       responses:
-        200:
-          description: "A successful response."
-          schema:
-            type: "string"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
+
   /gachas:
     get:
       tags:
       - "gacha"
-      summary: "ガチャ一覧表示"
-      description: ""
+      operationId: getGachas
+      description: ガチャの取得
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            type: "object"
-      security:
-      - api_key: []
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
+        responses:
+          "200":
+            description: "successful operation"
+            schema:
+              type: "object"
     post:
       tags:
       - "gacha"
-      summary: "ガチャ作成"
-      consumes:
-      - "application/json"
-      - "application/xml"
-      produces:
-      - "application/json"
-      - "application/xml"
+      operationId: createGacha
+      description: "ガチャ作成"
       requestBody:
         required: true
-        description: 作りたいガチャの情報
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/gacha"
+              $ref: '#/components/schemas/gachaCreateInput'
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
   /gachas/{Id}:
     get:
       tags:
       - "gacha"
-      summary: "ガチャ詳細表示"
-      description: ""
+      operationId: getGacha
+      description: ガチャ情報取得
       parameters:
-      - in: "path"
-        description: "ID of gacha to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/gachaIdPathParam"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            type: "object"
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
       security:
       - api_key: []
     post:
       tags:
       - "gacha"
-      summary: "ガチャ実行"
-      description: "idで指定されたガチャを引いてアイテムを取得+手持ちのガチャコインを減らす"
-      # どうやってガチャを引くユーザを取得するか？←headerでユーザIDとパスワード指定すれば認証できるみたい
+      operationId: drawGacha
+      # 何てoperationId名がいいか??
+      description: ガチャ実行
       parameters:
-      - in: "path"
-        description: "ID of gacha to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/gachaIdPathParam"
       requestBody:
-        description: "ガチャを引く回数"
+        required: true
         content:
           application/json:
             schema:
-              type: interger
+              $ref: '#/components/schemas/gachaDrawInput'
       responses:
         "200":
-          description: "successful response"
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
     put:
       tags:
       - "gacha"
-      summary: "ガチャ仕様変更"
-      description: "ガチャIDで指定したガチャの情報を変更する"
+      operationId: updateGacha
+      description: ガチャの更新
       parameters:
-      - in: "path"
-        description: "ID of gacha to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/gachaIdPathParam"
       requestBody:
-        description: "変えたいガチャの情報"
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/gacha"
+              $ref: '#/components/schemas/gachaUpdateInput'
       responses:
         "200":
-          description: "successful operation"
-        "400":
-          description: "Invalid"
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
     delete:
       tags:
       - "gacha"
-      summary: "ガチャ削除"
-      description: "選択したガチャを削除"
+      operationId: updateGacha
+      description: ガチャの削除
       parameters:
-      - name: "gachaId"
-      - in: "path"
-        description: "ID of gacha that needs to be deleted"
-        required: true
-        type: "integer"
-        format: "int64"
-        minimum: 1.0
+        - $ref: "#/components/parameters/gachaIdPathParam"
       responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "gacha not found"
-  # /gachas/{Id}/items:
-  #   get:
-  #     tags:
-  #       - "gacha"
-  #     summary: "アイテム一覧"
-  #     description: "ガチャに入っているアイテム一覧情報を取得"
-  #     parameters:
-  #     - name: "gachaId"
-  #     - in: "path"
-  #       description: "ID of gacha"
-  #       required: true
-  #       type: "integer"
-  #       format: "int64"
-  #       minimum: 1.0
-  #     responses:
-  #       200:
-  #         description: "A successful response."
-  #         schema:
-  #           type: "string"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
+
   /items/gachas/{Id}:
     post:
-      summary: "アイテム追加"
+      tags:
+      - "item"
+      operationId: createItem
+      description: アイテムの作成
       parameters:
-      - name: "gachaId"
-      - in: "path"
-        description: "ID of gacha that needs to be deleted"
-        required: true
-        type: "integer"
-        format: "int64"
-        minimum: 1.0
+        - $ref: "#/components/parameters/gachaIdPathParam"
       requestBody:
-        description: "追加するアイテムの情報"
+        required: true
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/item"
+              $ref: '#/components/schemas/itemCreateInput'
       responses:
-        200:
-          description: "A successful response."
-          schema:
-            type: "string"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
 
 securityDefinitions:
   api_key:
@@ -362,34 +261,53 @@ components:
           maxLength: 10000
       required:
         - message
-    
+
     # Gacha Schema
     # Todo: 上を真似して記述して
-    gacha:
+    gachaCreateInput:
       type: object
       properties:
-        name:
-          description: "ガチャの名前"
+        message:
           type: string
-        userid:
-          type: interger
-        # items:
-        #   description: "ガチャから出るアイテム"
-        #   type: array #arrayでいいのか
-        #   items:
-        #     $ref: "#/components/schemas/gachaitem"
-    gachaitems:
+          maxLength: 10000
+      required:
+        - message
+    gachaUpdateInput:
       type: object
-      description: "ガチャに入ってるもの"
       properties:
-        name:
+        message:
           type: string
-        rare:
-          descriotion: "レア度を表すなにか"
+          maxLength: 10000
+      required:
+        - message
+    gachaDrawInput:
+      type: "object"
+      properties:
+        times:
+          type: "integer"
+          description: ガチャを引く回数
+
+    # Item Schema
+    itemCreateInput:
+      type: object
+      properties:
+        message:
           type: string
-        gachaid:
-          type: interger
-    
+          maxLength: 10000
+      required:
+        - message
+    # gachaitems:
+    #   type: object
+    #   description: "ガチャに入ってるもの"
+    #   properties:
+    #     name:
+    #       type: string
+    #     rare:
+    #       descriotion: "レア度を表すなにか"
+    #       type: string
+    #     gachaid:
+    #       type: interger
+
     # Shared Schema
     errorMessage:
       type: object
@@ -406,6 +324,13 @@ components:
   parameters:
     # User Param
     userIdPathParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
+
+    gachaIdPathParam:
       name: id
       in: path
       required: true
