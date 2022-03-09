@@ -13,6 +13,7 @@ services:
       - ./swagger.yaml:/tmp/swagger.yaml
   db:
     image: mysql:5.7
+    platform: linux/x86_64
     container_name: tutorial_mysql
     tty: true
     ports:

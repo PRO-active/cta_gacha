@@ -9,70 +9,67 @@ tags:
 - name: "gacha"
   description: "gacha関連"
 paths:
+  # User API
   /users:
     post:
       tags:
       - "user"
-      summary: "ユーザ登録"
+      operationId: createUser
+      description: Userの登録
       requestBody:
-        description: User to create
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/userCreateInput'
       responses:
-        "405":
-          description: "Invalid input"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
   /users/{Id}:
     get:
       tags:
       - "user"
-      summary: "ユーザ情報参照"
-      description: "ユーザ情報を取得する"
+      operationId: getUser
+      description: Userの取得
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "ID of user to return"
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/userIdPathParam"
       responses:
         "200":
-          description: "successful operation"
-          schema:
-            $ref: "#/definitions/user"
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "user not found"
-      security:
-      - api_key: []
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"  
     patch:
       tags:
       - "user"
-      summary: "ユーザ情報変更"
-      description: ""
-      operationId: "updateUser"
+      operationId: updateUser
+      description: Userの更新
       parameters:
-      - name: "userId"
-        in: "path"
-        description: "ID of user that needs to be updated "
-        required: true
-        type: "integer"
-        format: "int64"
+        - $ref: "#/components/parameters/userIdPathParam"
       requestBody:
-        description: User data
+        required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/userUpdateInput'
       responses:
-        "400":
-          description: "Invalid ID supplied"
-        "404":
-          description: "User not found"
-        "405":
-          description: "Validation exception"
+        "200":
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/errorMessage"
+      default:
+        $ref: "#/components/responses/defaultError"
     # patch:
     #   tags:
     #   - "user"
@@ -348,17 +345,26 @@ securityDefinitions:
 
 components:
   schemas:
-    User:
+    # User Schema
+    userCreateInput:
       type: object
       properties:
-        id:
-          type: interger
-        name:
+        message:
           type: string
-        password:
+          maxLength: 10000
+      required:
+        - message
+    userUpdateInput:
+      type: object
+      properties:
+        message:
           type: string
-        mail:
-          type: string
+          maxLength: 10000
+      required:
+        - message
+    
+    # Gacha Schema
+    # Todo: 上を真似して記述して
     gacha:
       type: object
       properties:
@@ -383,8 +389,34 @@ components:
           type: string
         gachaid:
           type: interger
+    
+    # Shared Schema
+    errorMessage:
+      type: object
+      properties:
+        status:
+          type: integer
+        message:
+          type: string
+      required:
+        - status
+        - message
 
+  # Parameters
+  parameters:
+    # User Param
+    userIdPathParam:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: string
 
-externalDocs:
-  description: "Find out more about Swagger"
-  url: "http://swagger.io"
+  responses:
+    # Shared Response
+    defaultError:
+      description: デフォルトのエラーレスポンスの定義。
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/errorMessage"
