@@ -248,19 +248,34 @@ components:
     userCreateInput:
       type: object
       properties:
-        message:
+        id:
           type: string
-          maxLength: 10000
+        name:
+          type: string
+          maxLength: 100
+        password:
+          type: string
+          maxLength: 100
+        email:
+          type: string
       required:
-        - message
+        - id
+        - name
+        - password
     userUpdateInput:
       type: object
       properties:
-        message:
+        name:
           type: string
-          maxLength: 10000
+          maxLength: 100
+        password:
+          type: string
+          maxLength: 100
+        email:
+          type: string
       required:
-        - message
+        - name
+
 
     # Gacha Schema
     # Todo: 上を真似して記述して
