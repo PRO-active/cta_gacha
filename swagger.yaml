@@ -275,6 +275,7 @@ components:
           type: string
       required:
         - name
+        - password
 
 
     # Gacha Schema
@@ -282,19 +283,34 @@ components:
     gachaCreateInput:
       type: object
       properties:
-        message:
+        id:
           type: string
-          maxLength: 10000
+        name:
+          type: string
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 1000
+        userid:
+          type: string
       required:
-        - message
+        - id
+        - name
+        - userid
     gachaUpdateInput:
       type: object
       properties:
-        message:
+        name:
           type: string
-          maxLength: 10000
+          maxLength: 100
+        description:
+          type: string
+          maxLength: 1000
+        userid:
+          type: string
       required:
-        - message
+        - name
+        - userid
     gachaDrawInput:
       type: "object"
       properties:
@@ -306,22 +322,28 @@ components:
     itemCreateInput:
       type: object
       properties:
-        message:
+        id:
+          tyoe: string
+        name:
           type: string
-          maxLength: 10000
+          maxLength: 100
+        gachaid:
+          type: string
+          maxLength: 1000
+        userid:
+          type: string
+        img_path:
+          type: string
+        rarity:
+          type: string
+          # ENUMは選べないからstring??
       required:
-        - message
-    # gachaitems:
-    #   type: object
-    #   description: "ガチャに入ってるもの"
-    #   properties:
-    #     name:
-    #       type: string
-    #     rare:
-    #       descriotion: "レア度を表すなにか"
-    #       type: string
-    #     gachaid:
-    #       type: interger
+        - id
+        - name
+        - gachaid
+        - userid
+        - img_path
+        - rarity
 
     # Shared Schema
     errorMessage:
