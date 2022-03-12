@@ -30,7 +30,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/userResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /users/{Id}:
@@ -47,7 +47,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/userResponse"
       default:
         $ref: "#/components/responses/defaultError"
     patch:
@@ -69,7 +69,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/userResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /users/{Id}/items:
@@ -87,7 +87,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/itemResponse"
       default:
         $ref: "#/components/responses/defaultError"
 
@@ -103,7 +103,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
         responses:
@@ -128,7 +128,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /gachas/{Id}:
@@ -145,7 +145,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
       security:
@@ -170,7 +170,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaDrawResponse"
       default:
         $ref: "#/components/responses/defaultError"
     put:
@@ -192,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
     delete:
@@ -208,7 +208,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
 
@@ -232,7 +232,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/errorMessage"
+                $ref: "#/components/schemas/itemResponse"
       default:
         $ref: "#/components/responses/defaultError"
 
@@ -356,6 +356,50 @@ components:
       required:
         - status
         - message
+
+    userResponse:
+      type: object
+      properties:
+        userid:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+    gachaResponse:
+      type: object
+      properties:
+        gachaid:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+    gachaDrawResponse:
+      type: object
+      properties:
+        itemid:
+          type: string
+        name:
+          description: アイテム名
+          type: string
+        img_path:
+          type: string
+        rairty:
+          type: string
+
+    itemResponse:
+      type: object
+      properties:
+        itemid:
+          type: string
+        name:
+          type: string
+        img_path:
+          type: string
+        rarity:
+          type: string
 
   # Parameters
   parameters:
