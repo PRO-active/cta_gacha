@@ -27,10 +27,6 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/userResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /users/{Id}:
@@ -66,17 +62,12 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/userResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /users/{Id}/items:
     get:
       tags:
         - "user"
-        - "item"
       operationId: getUseritems
       description: User所持itemの取得
       parameters:
@@ -103,7 +94,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/gachaResponse"
+                $ref: "#/components/schemas/gachaGetResponse"
       default:
         $ref: "#/components/responses/defaultError"
         responses:
@@ -125,10 +116,6 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
   /gachas/{Id}:
@@ -158,12 +145,12 @@ paths:
       description: ガチャ実行
       parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/gachaDrawInput'
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         $ref: '#/components/schemas/gachaDrawInput'
       responses:
         "200":
           description: Success
@@ -189,10 +176,6 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
     delete:
@@ -205,14 +188,10 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/gachaResponse"
       default:
         $ref: "#/components/responses/defaultError"
 
-  /items/gachas/{Id}:
+  /items:
     post:
       tags:
       - "item"
@@ -229,10 +208,6 @@ paths:
       responses:
         "200":
           description: Success
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/itemResponse"
       default:
         $ref: "#/components/responses/defaultError"
 
@@ -248,8 +223,6 @@ components:
     userCreateInput:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
           maxLength: 100
@@ -259,16 +232,12 @@ components:
         email:
           type: string
       required:
-        - id
         - name
         - password
     userUpdateInput:
       type: object
       properties:
         name:
-          type: string
-          maxLength: 100
-        password:
           type: string
           maxLength: 100
         email:
@@ -279,24 +248,17 @@ components:
 
 
     # Gacha Schema
-    # Todo: 上を真似して記述して
     gachaCreateInput:
       type: object
       properties:
-        id:
-          type: string
         name:
           type: string
           maxLength: 100
         description:
           type: string
           maxLength: 1000
-        userid:
-          type: string
       required:
-        - id
         - name
-        - userid
     gachaUpdateInput:
       type: object
       properties:
@@ -306,24 +268,19 @@ components:
         description:
           type: string
           maxLength: 1000
-        userid:
-          type: string
       required:
         - name
-        - userid
-    gachaDrawInput:
-      type: "object"
-      properties:
-        times:
-          type: "integer"
-          description: ガチャを引く回数
+    # gachaDrawInput:
+    #   type: "object"
+    #   properties:
+    #     times:
+    #       type: "integer"
+    #       description: ガチャを引く回数
 
     # Item Schema
     itemCreateInput:
       type: object
       properties:
-        id:
-          tyoe: string
         name:
           type: string
           maxLength: 100
@@ -338,7 +295,6 @@ components:
           type: string
           # ENUMは選べないからstring??
       required:
-        - id
         - name
         - gachaid
         - userid
@@ -369,13 +325,39 @@ components:
 
     gachaResponse:
       type: object
+      description: ガチャの詳細表示
       properties:
-        gachaid:
-          type: string
         name:
           type: string
         description:
           type: string
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              itemid:
+                type: string
+              name:
+                type: string
+              img_path:
+                type: string
+              rarity:
+                type: string
+    gachaGetResponse:
+      type: object
+      properties:
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              gachaid:
+                type: string
+              name:
+                type: string
+              description:
+                type: string
     gachaDrawResponse:
       type: object
       properties:
@@ -392,14 +374,20 @@ components:
     itemResponse:
       type: object
       properties:
-        itemid:
-          type: string
-        name:
-          type: string
-        img_path:
-          type: string
-        rarity:
-          type: string
+        list:
+          type: array
+          items:
+            type: object
+            properties:
+              itemid:
+                type: string
+              name:
+                type: string
+              img_path:
+                type: string
+              rarity:
+                type: string
+
 
   # Parameters
   parameters:
