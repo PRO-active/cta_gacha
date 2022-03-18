@@ -1,7 +1,7 @@
 
 -- +migrate Up
 create table if not exists Items (
-  id char primary key,
+  id char NOT NULL primary key,
   gacha_id char,
   index gcid_index(gacha_id),
   foreign key fk_gacha(gacha_id) references Gachas(id),
