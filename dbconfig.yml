@@ -1,0 +1,5 @@
+development:
+    dialect: mysql # 使用するRDBMS
+    datasource: root:password@tcp(127.0.0.1:16002)/tutorial?charset=utf8mb4&collation=utf8mb4_general_ci&parseTime=true
+    dir: backend/db/migrations # マイグレーションファイルのあるディレクトリ
+    table: migrations # マイグレーション履歴を保存するテーブル名
