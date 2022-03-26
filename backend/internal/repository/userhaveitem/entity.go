@@ -5,3 +5,4 @@ type UserHaveItem struct {
 	ItemID string
 	UserID string
 }
+

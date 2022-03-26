@@ -8,3 +8,4 @@ type Item struct {
 	Rarity  string
 	ImgPath string
 }
+

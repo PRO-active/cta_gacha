@@ -7,3 +7,4 @@ type Gacha struct {
 	Description string
 	Hidden      bool
 }
+

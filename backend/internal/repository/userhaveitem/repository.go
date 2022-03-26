@@ -34,3 +34,4 @@ func (u *userhaveitemRepository) CreateUserHaveItem(id, userID, itemID string) (
 	}
 	return userhaveitem, nil
 }
+

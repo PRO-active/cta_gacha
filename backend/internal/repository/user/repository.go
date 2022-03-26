@@ -60,3 +60,4 @@ func (u *userRepository) UpdateUser(id string, name string, email string) (*User
 	}
 	return user, nil
 }
+

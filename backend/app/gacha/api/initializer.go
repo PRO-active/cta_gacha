@@ -1,29 +1,36 @@
 package api
 
 import (
-	userrepository "github.com/pro-active/cta_gacha/internal/repository/user"
-	userusecase "github.com/pro-active/cta_gacha/internal/usecase/user"
+	"github.com/labstack/echo/v4"
+	"github.com/pro-active/cta_gacha/app/gacha/api/gacha"
+	"github.com/pro-active/cta_gacha/app/gacha/api/item"
+	"github.com/pro-active/cta_gacha/app/gacha/api/user"
+	"gorm.io/gorm"
 )
 
-func NewApi(
-	db database.Database,
-) *api {
-	api := &api{
-		db: db,
+func InitalizeServer(db *gorm.DB) *echo.Echo {
+
+	e := echo.New()
+	handlers := initializeHandlers(db)
+
+	user.UserRoute(e, handlers.User)
+	item.ItemRoute(e, handlers.Item)
+	gacha.GachaRoute(e, handlers.Gacha)
+
+	return e
+}
+
+type handlers struct {
+	User  *user.UserHandler
+	Item  *item.ItemHandler
+	Gacha *gacha.GachaHandler
+}
+
+func initializeHandlers(db *gorm.DB) handlers {
+	return handlers{
+		User:  user.InitializeUserHandler(db),
+		Item:  item.InitializeItemHandler(db),
+		Gacha: gacha.InitializeGachaHandler(db),
 	}
-
-	initRepository(api)
-	initUseCase(api)
-
-	return api
 }
 
-func initRepository(a *api) {
-	a.userRepository = userrepository.NewUserRepository(a.db)
-}
-
-func initUseCase(a *api) {
-	a.userUseCase = userusecase.NewUserUsecase(
-		a.db,
-	)
-}

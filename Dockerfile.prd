@@ -1,0 +1,16 @@
+# FROM golang:latest
+# WORKDIR /app
+# COPY dbconfig.yml ./
+# COPY backend ./backend
+# CMD ["go","run","/app/backend/app/gacha/main.go"]
+FROM golang:latest AS builder
+WORKDIR /app
+COPY backend ./backend
+RUN cd /app/backend &&\
+go mod tidy &&\
+go build -o /tmp/app /app/backend/app/gacha/main.go
+
+FROM alpine:latest
+COPY --from=builder /tmp/app /app
+CMD ["./app"]
+# CMD []

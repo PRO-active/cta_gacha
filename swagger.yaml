@@ -1,6 +1,6 @@
 openapi: 3.0.0
 info:
-  description: "ガチャアプリ仕様"
+  description: "ガチャアプリ仕槁E
   version: "1.0.1"
   title: "Gacha App"
 tags:
@@ -34,8 +34,7 @@ paths:
       tags:
       - "user"
       operationId: getUser
-      description: Userの取得
-      parameters:
+      description: Userの取征E      parameters:
         - $ref: "#/components/parameters/userIdPathParam"
       responses:
         "200":
@@ -69,8 +68,7 @@ paths:
       tags:
         - "user"
       operationId: getUseritems
-      description: User所持itemの取得
-      parameters:
+      description: User所持itemの取征E      parameters:
         - $ref: "#/components/parameters/userIdPathParam"
       responses:
         "200":
@@ -87,8 +85,7 @@ paths:
       tags:
       - "gacha"
       operationId: getGachas
-      description: ガチャの取得
-      responses:
+      description: ガチャの取征E      responses:
         "200":
           description: Success
           content:
@@ -106,7 +103,7 @@ paths:
       tags:
       - "gacha"
       operationId: createGacha
-      description: "ガチャ作成"
+      description: "ガチャ作�E"
       requestBody:
         required: true
         content:
@@ -123,8 +120,7 @@ paths:
       tags:
       - "gacha"
       operationId: getGacha
-      description: ガチャ情報取得
-      parameters:
+      description: ガチャ惁E��取征E      parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
       responses:
         "200":
@@ -141,9 +137,8 @@ paths:
       tags:
       - "gacha"
       operationId: drawGacha
-      # 何てoperationId名がいいか??
-      description: ガチャ実行
-      parameters:
+      # 何てoperationId名がぁE��ぁE?
+      description: ガチャ実衁E      parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
       # requestBody:
       #   required: true
@@ -196,7 +191,7 @@ paths:
       tags:
       - "item"
       operationId: createItem
-      description: アイテムの作成
+      description: アイチE��の作�E
       parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
       requestBody:
@@ -293,7 +288,7 @@ components:
           type: string
         rarity:
           type: string
-          # ENUMは選べないからstring??
+          # ENUMは選べなぁE��らstring??
       required:
         - name
         - gachaid
@@ -364,8 +359,7 @@ components:
         itemid:
           type: string
         name:
-          description: アイテム名
-          type: string
+          description: アイチE��吁E          type: string
         img_path:
           type: string
         rairty:
@@ -409,8 +403,7 @@ components:
   responses:
     # Shared Response
     defaultError:
-      description: デフォルトのエラーレスポンスの定義。
-      content:
+      description: チE��ォルト�Eエラーレスポンスの定義、E      content:
         application/json:
           schema:
             $ref: "#/components/schemas/errorMessage"

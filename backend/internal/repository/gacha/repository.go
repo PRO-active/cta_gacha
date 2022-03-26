@@ -72,3 +72,4 @@ func (g *gachaRepository) DeleteGacha(id string) (*Gacha, error) {
 	}
 	return gacha, nil
 }
+

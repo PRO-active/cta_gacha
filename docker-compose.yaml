@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   sw-ui:
@@ -25,6 +25,16 @@ services:
     environment:
       - MYSQL_DATABASE=tutorial
       - MYSQL_ROOT_PASSWORD=password
+  prd:
+    build:
+      context: .
+      dockerfile: Dockerfile.prd
+    image: gacha_prd:latest
+    container_name: gacha_prd
+    tty: true
+    ports:
+      - 16003:8080
 
 volumes:
   tutorial-db-volume:
+

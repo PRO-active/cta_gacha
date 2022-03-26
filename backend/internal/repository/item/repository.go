@@ -44,3 +44,4 @@ func (i *itemRepository) CreateItem(id, name, gachaID, userID, imgPath, rairty s
 	}
 	return item, nil
 }
+
