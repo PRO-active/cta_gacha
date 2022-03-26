@@ -10,7 +10,8 @@ RUN cd /app/backend &&\
 go mod tidy &&\
 go build -o /tmp/app /app/backend/app/gacha/main.go
 
-FROM alpine:latest
+FROM golang:1.17.5
+WORKDIR /
 COPY --from=builder /tmp/app /app
 CMD ["./app"]
 # CMD []
