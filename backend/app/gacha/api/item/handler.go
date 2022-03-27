@@ -2,12 +2,14 @@ package item
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/pro-active/cta_gacha/external/aws/s3"
 	usecase "github.com/pro-active/cta_gacha/internal/usecase/item"
+	"github.com/pro-active/cta_gacha/util"
 )
 
 type ItemHandler struct {
@@ -36,7 +38,9 @@ func (g *ItemHandler) CreateItem(ctx echo.Context) error {
 	}
 	defer src.Close()
 	// S3に送る
-	req := s3.NewUploadRequest(os.Getenv("bucketName"), os.Getenv("bucketKey"), src)
+	uuid, err := util.GenerateUUID()
+	filename := fmt.Sprintf("%s_%s", uuid, file.Filename)
+	req := s3.NewUploadRequest(os.Getenv("BUCKET_NAME"), filename, src)
 	imgPath, err := s3.Upload(context.Background(), req)
 	if err != nil {
 		return err
