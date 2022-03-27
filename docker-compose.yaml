@@ -1,4 +1,4 @@
-version: '3.7'
+version: "3.7"
 
 services:
   sw-ui:
@@ -21,10 +21,21 @@ services:
     command: mysqld --character-set-server=utf8 --collation-server=utf8_unicode_ci
     volumes:
       # - ./db/init:/docker-entrypoint-initdb.d
-      - tutorial-db-volume:/var/lib/mysql
+      - gacha-db-volume:/var/lib/mysql
     environment:
-      - MYSQL_DATABASE=tutorial
+      - MYSQL_DATABASE=gacha_db
       - MYSQL_ROOT_PASSWORD=password
+  prd:
+    build:
+      context: .
+      dockerfile: Dockerfile.prd
+    image: gacha_prd:latest
+    container_name: gacha_prd
+    tty: true
+    env_file:
+      - .env.prd
+    ports:
+      - 16003:8080
 
 volumes:
-  tutorial-db-volume:
+  gacha-db-volume:
