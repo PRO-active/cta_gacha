@@ -1,12 +1,12 @@
 
 -- +migrate Up
-create table if not exists UserHaveItems (
-  id char NOT NULL primary key,
-  user_id char,
+create table if not exists userhaveitems (
+  id char(3) NOT NULL primary key,
+  user_id char(3),
   index usid_index(user_id),
-  foreign key fk_user(user_id) references Users(id),
-  item_id char,index itid_index(item_id),
-  foreign key fk_item(item_id) references Items(id)
+  foreign key fk_user(user_id) references users(id),
+  item_id char(3),index itid_index(item_id),
+  foreign key fk_item(item_id) references items(id)
   );
 -- +migrate Down
-drop table if exists UserHaveItems;
+drop table if exists userhaveitems;
