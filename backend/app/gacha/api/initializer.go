@@ -1,6 +1,8 @@
 package api
 
 import (
+	"net/http"
+
 	"github.com/labstack/echo/v4"
 	"github.com/pro-active/cta_gacha/app/gacha/api/gacha"
 	"github.com/pro-active/cta_gacha/app/gacha/api/item"
@@ -16,8 +18,12 @@ func InitalizeServer(db *gorm.DB) *echo.Echo {
 	user.UserRoute(e, handlers.User)
 	item.ItemRoute(e, handlers.Item)
 	gacha.GachaRoute(e, handlers.Gacha)
-
+	e.GET("/server-health", healthCheck)
 	return e
+}
+
+func healthCheck(ctx echo.Context) error {
+	return ctx.String(http.StatusOK, "OK")
 }
 
 type handlers struct {
@@ -33,4 +39,3 @@ func initializeHandlers(db *gorm.DB) handlers {
 		Gacha: gacha.InitializeGachaHandler(db),
 	}
 }
-
