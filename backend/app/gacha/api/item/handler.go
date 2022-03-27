@@ -1,18 +1,12 @@
 package item
 
 import (
-<<<<<<< HEAD
 	"context"
 	"net/http"
 	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/pro-active/cta_gacha/external/aws/s3"
-=======
-	"net/http"
-
-	"github.com/labstack/echo/v4"
->>>>>>> origin/master
 	usecase "github.com/pro-active/cta_gacha/internal/usecase/item"
 )
 
