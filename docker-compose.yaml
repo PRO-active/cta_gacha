@@ -14,7 +14,7 @@ services:
   db:
     image: mysql:5.7
     platform: linux/x86_64
-    container_name: tutorial_mysql
+    container_name: gacha_mysql
     tty: true
     ports:
       - 16002:3306
@@ -33,9 +33,9 @@ services:
     container_name: gacha_prd
     tty: true
     env_file:
-      - .env.prd
+      - .env.dev
     ports:
-      - 16003:8080
+      - 16003:80
 
 volumes:
   gacha-db-volume:
