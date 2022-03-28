@@ -36,7 +36,7 @@ func main() {
 	server := api.InitalizeServer(db)
 	// server.Server.ListenAndServe()
 	// firewallが出てくるのでローカルでホストを持たせる
-	if err := server.Start("0.0.0.0:8080"); err != http.ErrServerClosed {
+	if err := server.Start("0.0.0.0:80"); err != http.ErrServerClosed {
 		log.Fatal(err)
 	}
 }
