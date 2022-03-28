@@ -1,21 +1,21 @@
 openapi: 3.0.0
 info:
-  description: "ガチャアプリ仕槁E
+  description: "ガチャアプリ仕様"
   version: "1.0.1"
   title: "Gacha App"
 tags:
-- name: "user"
-  description: "user関連"
-- name: "gacha"
-  description: "gacha関連"
-- name: "item"
-  description: "item関連"
+  - name: "user"
+    description: "user関連"
+  - name: "gacha"
+    description: "gacha関連"
+  - name: "item"
+    description: "item関連"
 paths:
   # User API
   /users:
     post:
       tags:
-      - "user"
+        - "user"
       operationId: createUser
       description: Userの登録
       requestBody:
@@ -23,7 +23,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/userCreateInput'
+              $ref: "#/components/schemas/userCreateInput"
       responses:
         "200":
           description: Success
@@ -32,9 +32,10 @@ paths:
   /users/{Id}:
     get:
       tags:
-      - "user"
+        - "user"
       operationId: getUser
-      description: Userの取征E      parameters:
+      description: Userの取得
+      parameters:
         - $ref: "#/components/parameters/userIdPathParam"
       responses:
         "200":
@@ -47,7 +48,7 @@ paths:
         $ref: "#/components/responses/defaultError"
     patch:
       tags:
-      - "user"
+        - "user"
       operationId: updateUser
       description: Userの更新
       parameters:
@@ -57,7 +58,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/userUpdateInput'
+              $ref: "#/components/schemas/userUpdateInput"
       responses:
         "200":
           description: Success
@@ -68,7 +69,8 @@ paths:
       tags:
         - "user"
       operationId: getUseritems
-      description: User所持itemの取征E      parameters:
+      description: User所持itemの取得
+      parameters:
         - $ref: "#/components/parameters/userIdPathParam"
       responses:
         "200":
@@ -83,9 +85,10 @@ paths:
   /gachas:
     get:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: getGachas
-      description: ガチャの取征E      responses:
+      description: ガチャの取得
+      responses:
         "200":
           description: Success
           content:
@@ -101,15 +104,15 @@ paths:
               type: "object"
     post:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: createGacha
-      description: "ガチャ作�E"
+      description: "ガチャ作成"
       requestBody:
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/gachaCreateInput'
+              $ref: "#/components/schemas/gachaCreateInput"
       responses:
         "200":
           description: Success
@@ -118,9 +121,10 @@ paths:
   /gachas/{Id}:
     get:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: getGacha
-      description: ガチャ惁E��取征E      parameters:
+      description: ガチャ情報取得
+      parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
       responses:
         "200":
@@ -132,20 +136,20 @@ paths:
       default:
         $ref: "#/components/responses/defaultError"
       security:
-      - api_key: []
+        - api_key: []
     post:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: drawGacha
-      # 何てoperationId名がぁE��ぁE?
-      description: ガチャ実衁E      parameters:
+      description: ガチャ実行
+      parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/gachaDrawUser'
+      # requestBody:
+      #   required: true
+      #   content:
+      #     application/json:
+      #       schema:
+      #         $ref: '#/components/schemas/gachaDrawInput'
       responses:
         "200":
           description: Success
@@ -157,7 +161,7 @@ paths:
         $ref: "#/components/responses/defaultError"
     put:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: updateGacha
       description: ガチャの更新
       parameters:
@@ -167,7 +171,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/gachaUpdateInput'
+              $ref: "#/components/schemas/gachaUpdateInput"
       responses:
         "200":
           description: Success
@@ -175,7 +179,7 @@ paths:
         $ref: "#/components/responses/defaultError"
     delete:
       tags:
-      - "gacha"
+        - "gacha"
       operationId: updateGacha
       description: ガチャの削除
       parameters:
@@ -189,9 +193,9 @@ paths:
   /items:
     post:
       tags:
-      - "item"
+        - "item"
       operationId: createItem
-      description: アイチE��の作�E
+      description: アイテムの作成
       parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
       requestBody:
@@ -199,7 +203,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/itemCreateInput'
+              $ref: "#/components/schemas/itemCreateInput"
       responses:
         "200":
           description: Success
@@ -241,7 +245,6 @@ components:
         - name
         - password
 
-
     # Gacha Schema
     gachaCreateInput:
       type: object
@@ -265,13 +268,12 @@ components:
           maxLength: 1000
       required:
         - name
-
-    gachaDrawUser:
-      type: "object"
-      properties:
-        user_id:
-          type: "string"
-
+    # gachaDrawInput:
+    #   type: "object"
+    #   properties:
+    #     times:
+    #       type: "integer"
+    #       description: ガチャを引く回数
 
     # Item Schema
     itemCreateInput:
@@ -289,7 +291,7 @@ components:
           type: string
         rarity:
           type: string
-          # ENUMは選べなぁE��らstring??
+          # ENUMは選べないからstring??
       required:
         - name
         - gachaid
@@ -332,7 +334,7 @@ components:
           items:
             type: object
             properties:
-              item_id:
+              itemid:
                 type: string
               name:
                 type: string
@@ -357,10 +359,11 @@ components:
     gachaDrawResponse:
       type: object
       properties:
-        item_id:
+        itemid:
           type: string
         name:
-          description: アイチE��吁E          type: string
+          description: アイテム名
+          type: string
         img_path:
           type: string
         rairty:
@@ -374,7 +377,7 @@ components:
           items:
             type: object
             properties:
-              item_id:
+              itemid:
                 type: string
               name:
                 type: string
@@ -382,7 +385,6 @@ components:
                 type: string
               rarity:
                 type: string
-
 
   # Parameters
   parameters:
@@ -404,7 +406,8 @@ components:
   responses:
     # Shared Response
     defaultError:
-      description: チE��ォルト�Eエラーレスポンスの定義、E      content:
+      description: デフォルトのエラーレスポンスの定義。
+      content:
         application/json:
           schema:
             $ref: "#/components/schemas/errorMessage"
