@@ -13,7 +13,13 @@ go build -o /tmp/app /app/backend/app/gacha/main.go
 FROM golang:1.17.5
 WORKDIR /
 COPY --from=builder /tmp/app /app
+COPY ./dbconfig.yml ./dbconfig.yml
+COPY ./backend/db/migrations ./backend/db/migrations
 # COPY ./scripts/docker.start.sh docker.start.sh
-CMD ["./app"]
+RUN go get -v github.com/rubenv/sql-migrate/...@f842348935589e4563be545226d465178bd439cf
+COPY ./scripts/start.sh ./start.sh
+# export PATH="$HOME/go/bin:$PATH"
+# sql-migrate up -env="production"
+ENTRYPOINT [ "bash","start.sh" ]
 # CMD ["sh","docker.start.sh"]
 # CMD []
