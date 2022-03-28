@@ -28,17 +28,14 @@ func (g *ItemHandler) CreateItem(ctx echo.Context) error {
 	name := ctx.FormValue("name")
 	gachaID := ctx.FormValue("gachaid")
 	userID := ctx.FormValue("userid")
-<<<<<<< HEAD
 	rarity := ctx.FormValue("rarity")
 
 	file, err := ctx.FormFile("image")
 	if err != nil {
-		log.Printf("00: %v", err)
 		return err
 	}
 	src, err := file.Open()
 	if err != nil {
-		log.Printf("01: %v", err)
 		return err
 	}
 	defer src.Close()

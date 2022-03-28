@@ -140,12 +140,12 @@ paths:
       description: ガチャ実行
       parameters:
         - $ref: "#/components/parameters/gachaIdPathParam"
-      # requestBody:
-      #   required: true
-      #   content:
-      #     application/json:
-      #       schema:
-      #         $ref: '#/components/schemas/gachaDrawInput'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/gachaDrawUser'
       responses:
         "200":
           description: Success
@@ -264,12 +264,13 @@ components:
           maxLength: 1000
       required:
         - name
-    # gachaDrawInput:
-    #   type: "object"
-    #   properties:
-    #     times:
-    #       type: "integer"
-    #       description: ガチャを引く回数
+
+    gachaDrawUser:
+      type: "object"
+      properties:
+        user_id:
+          type: "string"
+
 
     # Item Schema
     itemCreateInput:
@@ -287,7 +288,6 @@ components:
           type: string
         rarity:
           type: string
-          # ENUMは選べなぁE��らstring??
       required:
         - name
         - gachaid
@@ -330,7 +330,7 @@ components:
           items:
             type: object
             properties:
-              itemid:
+              item_id:
                 type: string
               name:
                 type: string
@@ -355,7 +355,7 @@ components:
     gachaDrawResponse:
       type: object
       properties:
-        itemid:
+        item_id:
           type: string
         name:
           description: アイチE��吁E          type: string
@@ -372,7 +372,7 @@ components:
           items:
             type: object
             properties:
-              itemid:
+              item_id:
                 type: string
               name:
                 type: string
