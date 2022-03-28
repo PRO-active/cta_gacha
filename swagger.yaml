@@ -287,7 +287,6 @@ components:
           type: string
         rarity:
           type: string
-          # ENUMは選べなぁE��らstring??
       required:
         - name
         - gachaid
