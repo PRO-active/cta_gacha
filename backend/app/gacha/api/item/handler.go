@@ -28,6 +28,7 @@ func (g *ItemHandler) CreateItem(ctx echo.Context) error {
 	name := ctx.FormValue("name")
 	gachaID := ctx.FormValue("gachaid")
 	userID := ctx.FormValue("userid")
+<<<<<<< HEAD
 	rarity := ctx.FormValue("rarity")
 
 	file, err := ctx.FormFile("image")
