@@ -28,7 +28,6 @@ func (g *ItemHandler) CreateItem(ctx echo.Context) error {
 	name := ctx.FormValue("name")
 	gachaID := ctx.FormValue("gachaid")
 	userID := ctx.FormValue("userid")
-<<<<<<< HEAD
 	rarity := ctx.FormValue("rarity")
 
 	file, err := ctx.FormFile("image")
@@ -44,6 +43,9 @@ func (g *ItemHandler) CreateItem(ctx echo.Context) error {
 	defer src.Close()
 	// S3に送る
 	uuid, err := util.GenerateUUID()
+	if err != nil {
+		return err
+	}
 	filename := fmt.Sprintf("%s_%s", uuid, file.Filename)
 	c := context.Background()
 	conf, err := config.LoadDefaultConfig(c)
